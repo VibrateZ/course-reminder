@@ -15,9 +15,10 @@
   },
   "build": {
     "appId": "local.course.reminder",
-    "productName": "课程提醒",
+    "productName": "Course Reminder",
+    "artifactName": "course-reminder-${version}.${ext}",
     "electronDist": "node_modules/electron/dist",
-    "compression": "store",
+    "compression": "normal",
     "directories": { "output": "release" },
     "extraResources": [
       { "from": "examples/示例课表.md", "to": "learning-plan.md" },
