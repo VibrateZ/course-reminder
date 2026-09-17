@@ -3,6 +3,7 @@ const fs = require('node:fs');
 const path = require('node:path');
 const { parseMarkdown } = require('../src/schedule-parser');
 const { nextStudyEntry } = require('../src/study-selection');
+const { clampZoom, formatZoom, stepZoom } = require('../src/viewer-controls');
 
 const standard = `
 ## 第 3 周
@@ -44,4 +45,11 @@ assert.equal(nextStudyEntry(studySchedule, new Date('2026-09-19T00:00:00')), nul
 assert.equal(nextStudyEntry([], new Date('2026-09-17T12:00:00')), null);
 const styles = fs.readFileSync(path.join(__dirname, '..', 'src', 'style.css'), 'utf8');
 assert.match(styles, /\[hidden]\s*\{\s*display:\s*none\s*!important;/, '隐藏视图不能继续占用布局空间');
+assert.equal(clampZoom(0.1), 0.5);
+assert.equal(clampZoom(3), 2);
+assert.equal(clampZoom('invalid'), 1);
+assert.equal(stepZoom(1, 1), 1.1);
+assert.equal(stepZoom(1, -1), 0.9);
+assert.equal(stepZoom(2, 1), 2);
+assert.equal(formatZoom(1.3), '130%');
 console.log('schedule-parser: all tests passed');

@@ -1,6 +1,7 @@
 let schedule = [];
 let activeEntry = null;
 let activeUrl = '';
+let zoomFactor = 1;
 
 const scheduleEl = document.querySelector('#schedule');
 const todayEl = document.querySelector('#today');
@@ -12,6 +13,9 @@ const courseView = document.querySelector('#courseView');
 const promptDialog = document.querySelector('#promptDialog');
 const promptText = document.querySelector('#promptText');
 const advanceButton = document.querySelector('#advance');
+const zoomOutButton = document.querySelector('#zoomOut');
+const zoomResetButton = document.querySelector('#zoomReset');
+const zoomInButton = document.querySelector('#zoomIn');
 
 function localDateKey() {
   const now = new Date();
@@ -26,6 +30,18 @@ function openLink(entry, link, advance = false) {
   pageTitle.textContent = `${advance ? '提前学习 · ' : ''}${entry.date} ${entry.startTime} · ${link.label}`;
   courseView.src = link.url;
   render();
+}
+
+function applyZoom(value) {
+  zoomFactor = window.viewerControls.clampZoom(value);
+  zoomResetButton.textContent = window.viewerControls.formatZoom(zoomFactor);
+  zoomOutButton.disabled = zoomFactor <= window.viewerControls.MIN_ZOOM;
+  zoomInButton.disabled = zoomFactor >= window.viewerControls.MAX_ZOOM;
+  try {
+    courseView.setZoomFactor(zoomFactor);
+  } catch {
+    // The selected zoom is applied when the webview finishes attaching.
+  }
 }
 
 function row(entry) {
@@ -100,6 +116,10 @@ advanceButton.addEventListener('click', () => {
 });
 document.querySelector('#test').addEventListener('click', () => window.courseApp.testNotification());
 document.querySelector('#external').addEventListener('click', () => activeUrl && window.courseApp.openExternal(activeUrl));
+zoomOutButton.addEventListener('click', () => applyZoom(window.viewerControls.stepZoom(zoomFactor, -1)));
+zoomResetButton.addEventListener('click', () => applyZoom(1));
+zoomInButton.addEventListener('click', () => applyZoom(window.viewerControls.stepZoom(zoomFactor, 1)));
+courseView.addEventListener('dom-ready', () => applyZoom(zoomFactor));
 document.querySelector('#prompt').addEventListener('click', async () => {
   promptText.textContent = await window.courseApp.getPrompt();
   promptDialog.showModal();
@@ -111,4 +131,5 @@ document.querySelector('#copyPrompt').addEventListener('click', async (event) =>
   setTimeout(() => { event.currentTarget.textContent = '复制提示词'; }, 1200);
 });
 window.courseApp.onOpenEntry((entry) => openLink(entry, entry.links[0]));
+applyZoom(1);
 load();

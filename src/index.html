@@ -25,7 +25,17 @@
     <section class="viewer">
       <div id="empty" class="empty"><strong>选择一个学习日</strong><span>课程网站会在此内置浏览器中打开。</span></div>
       <div id="browser" hidden>
-        <div class="browserbar"><span id="pageTitle"></span><button id="external" title="在系统浏览器打开">↗</button></div>
+        <div class="browserbar">
+          <span id="pageTitle"></span>
+          <div class="browserTools" aria-label="网页工具">
+            <div class="zoomControls" aria-label="网页缩放">
+              <button id="zoomOut" type="button" title="缩小网页">−</button>
+              <button id="zoomReset" type="button" title="恢复 100%">100%</button>
+              <button id="zoomIn" type="button" title="放大网页">+</button>
+            </div>
+            <button id="external" type="button" title="在系统浏览器打开">↗</button>
+          </div>
+        </div>
         <webview id="courseView" partition="persist:course-reminder" allowpopups></webview>
       </div>
     </section>
@@ -36,6 +46,7 @@
     <div class="dialogActions"><button id="copyPrompt" class="primary">复制提示词</button></div>
   </dialog>
   <script src="study-selection.js"></script>
+  <script src="viewer-controls.js"></script>
   <script src="renderer.js"></script>
 </body>
 </html>
