@@ -4,6 +4,8 @@
 
 一个面向 Windows 的 Electron 学习课表提醒器。选择本地 Markdown 课表后，应用会校验并记住文件路径，在课程开始时发送系统通知，并使用内置 Chromium 打开课程资料。
 
+配套的课表生成工具：[AI Schedule Generator](https://github.com/VibrateZ/ai-schedule-generator)。它可使用用户自己的 AI API 生成课表，并识别图片/PDF 课程表以避开时间冲突。
+
 ## 功能
 
 - 通过系统文件选择器导入 `.md` 课表，选择结果跨重启保存。
