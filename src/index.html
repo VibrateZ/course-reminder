@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>课程提醒</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <div><h1>课程提醒</h1><p id="status">正在读取学习计划...</p></div>
+    <div class="actions">
+      <button id="selectPlan">选择课表</button>
+      <button id="prompt">AI 课表提示词</button>
+      <button id="reload" title="重新读取 Markdown">↻</button>
+      <button id="test">测试提醒</button>
+    </div>
+  </header>
+  <main>
+    <aside>
+      <section id="today" class="today"></section>
+      <nav id="schedule" aria-label="学习日程"></nav>
+    </aside>
+    <section class="viewer">
+      <div id="empty" class="empty"><strong>选择一个学习日</strong><span>课程网站会在此内置浏览器中打开。</span></div>
+      <div id="browser" hidden>
+        <div class="browserbar"><span id="pageTitle"></span><button id="external" title="在系统浏览器打开">↗</button></div>
+        <webview id="courseView" partition="persist:course-reminder" allowpopups></webview>
+      </div>
+    </section>
+  </main>
+  <dialog id="promptDialog">
+    <div class="dialogHead"><strong>为 AI 生成课表提供的提示词</strong><button id="closePrompt" title="关闭">×</button></div>
+    <pre id="promptText"></pre>
+    <div class="dialogActions"><button id="copyPrompt" class="primary">复制提示词</button></div>
+  </dialog>
+  <script src="renderer.js"></script>
+</body>
+</html>
