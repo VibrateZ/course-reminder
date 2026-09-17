@@ -1,5 +1,6 @@
 const assert = require('node:assert/strict');
 const { parseMarkdown } = require('../src/schedule-parser');
+const { nextStudyEntry } = require('../src/study-selection');
 
 const standard = `
 ## 第 3 周
@@ -28,4 +29,15 @@ assert.ok(parsedLegacy[0].links.length > 0);
 
 assert.equal(parseMarkdown('# 没有课表').length, 0);
 assert.equal(parseMarkdown('| 日期 | 星期 |\n|---|---|').length, 0);
+
+const studySchedule = [
+  { id: 'past', date: '2026-09-17', startTime: '08:00', links: [{ url: 'https://example.com/past' }] },
+  { id: 'later', date: '2026-09-18', startTime: '14:00', links: [{ url: 'https://example.com/later' }] },
+  { id: 'next', date: '2026-09-18', startTime: '10:00', links: [{ url: 'https://example.com/next' }] },
+  { id: 'no-link', date: '2026-09-18', startTime: '09:00', links: [] },
+];
+assert.equal(nextStudyEntry(studySchedule, new Date('2026-09-17T12:00:00')).id, 'next');
+assert.equal(nextStudyEntry(studySchedule, new Date('2026-09-18T10:00:00')).id, 'next');
+assert.equal(nextStudyEntry(studySchedule, new Date('2026-09-19T00:00:00')), null);
+assert.equal(nextStudyEntry([], new Date('2026-09-17T12:00:00')), null);
 console.log('schedule-parser: all tests passed');

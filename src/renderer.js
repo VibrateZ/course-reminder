@@ -11,18 +11,19 @@ const pageTitle = document.querySelector('#pageTitle');
 const courseView = document.querySelector('#courseView');
 const promptDialog = document.querySelector('#promptDialog');
 const promptText = document.querySelector('#promptText');
+const advanceButton = document.querySelector('#advance');
 
 function localDateKey() {
   const now = new Date();
   return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
 }
 
-function openLink(entry, link) {
+function openLink(entry, link, advance = false) {
   activeEntry = entry;
   activeUrl = link.url;
   emptyEl.hidden = true;
   browserEl.hidden = false;
-  pageTitle.textContent = `${entry.date} ${entry.startTime} · ${link.label}`;
+  pageTitle.textContent = `${advance ? '提前学习 · ' : ''}${entry.date} ${entry.startTime} · ${link.label}`;
   courseView.src = link.url;
   render();
 }
@@ -61,6 +62,11 @@ function render() {
     todayEl.innerHTML = '<div class="eyebrow">今日安排</div><p>今天没有排定学习任务。</p>';
   }
   scheduleEl.replaceChildren(...schedule.map(row));
+  const nextEntry = window.studySelection.nextStudyEntry(schedule);
+  advanceButton.disabled = !nextEntry;
+  advanceButton.title = nextEntry
+    ? `下一节：${nextEntry.date} ${nextEntry.startTime}${nextEntry.course ? ` · ${nextEntry.course}` : ''}`
+    : '没有可提前学习的未来课程';
 }
 
 function applyState(state) {
@@ -88,6 +94,10 @@ document.querySelector('#selectPlan').addEventListener('click', async () => {
   applyState(result.state);
 });
 document.querySelector('#reload').addEventListener('click', load);
+advanceButton.addEventListener('click', () => {
+  const entry = window.studySelection.nextStudyEntry(schedule);
+  if (entry) openLink(entry, entry.links[0], true);
+});
 document.querySelector('#test').addEventListener('click', () => window.courseApp.testNotification());
 document.querySelector('#external').addEventListener('click', () => activeUrl && window.courseApp.openExternal(activeUrl));
 document.querySelector('#prompt').addEventListener('click', async () => {

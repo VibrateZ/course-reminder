@@ -10,6 +10,7 @@
   <header>
     <div><h1>课程提醒</h1><p id="status">正在读取学习计划...</p></div>
     <div class="actions">
+      <button id="advance" class="primary" disabled>▶ 提前学习</button>
       <button id="selectPlan">选择课表</button>
       <button id="prompt">AI 课表提示词</button>
       <button id="reload" title="重新读取 Markdown">↻</button>
@@ -34,6 +35,7 @@
     <pre id="promptText"></pre>
     <div class="dialogActions"><button id="copyPrompt" class="primary">复制提示词</button></div>
   </dialog>
+  <script src="study-selection.js"></script>
   <script src="renderer.js"></script>
 </body>
 </html>
