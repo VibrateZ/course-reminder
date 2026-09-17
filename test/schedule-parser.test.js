@@ -1,4 +1,6 @@
 const assert = require('node:assert/strict');
+const fs = require('node:fs');
+const path = require('node:path');
 const { parseMarkdown } = require('../src/schedule-parser');
 const { nextStudyEntry } = require('../src/study-selection');
 
@@ -40,4 +42,6 @@ assert.equal(nextStudyEntry(studySchedule, new Date('2026-09-17T12:00:00')).id, 
 assert.equal(nextStudyEntry(studySchedule, new Date('2026-09-18T10:00:00')).id, 'next');
 assert.equal(nextStudyEntry(studySchedule, new Date('2026-09-19T00:00:00')), null);
 assert.equal(nextStudyEntry([], new Date('2026-09-17T12:00:00')), null);
+const styles = fs.readFileSync(path.join(__dirname, '..', 'src', 'style.css'), 'utf8');
+assert.match(styles, /\[hidden]\s*\{\s*display:\s*none\s*!important;/, '隐藏视图不能继续占用布局空间');
 console.log('schedule-parser: all tests passed');

@@ -44,7 +44,7 @@ npm start
 npm run package
 ```
 
-便携版输出到 `release/course-reminder-1.2.0.exe`。构建结果、依赖目录和日志不会提交到 Git。
+便携版输出到 `release/course-reminder-1.2.1.exe`。构建结果、依赖目录和日志不会提交到 Git。
 
 ## 数据位置
 

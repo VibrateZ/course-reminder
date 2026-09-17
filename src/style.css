@@ -1,5 +1,6 @@
 :root { font-family: "Microsoft YaHei UI", system-ui, sans-serif; color: #15202b; background: #f6f8fa; }
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
 body { margin: 0; height: 100vh; overflow: hidden; }
 header { height: 76px; padding: 12px 22px; display: flex; align-items: center; justify-content: space-between; gap: 16px; background: #ffffff; border-bottom: 1px solid #d8dee4; }
 header > div:first-child { min-width: 0; flex: 1; }

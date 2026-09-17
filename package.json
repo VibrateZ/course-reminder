@@ -1,6 +1,6 @@
 {
   "name": "course-reminder",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "private": true,
   "description": "本地学习计划提醒与课程浏览器",
   "main": "src/main.js",
